@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Вся Інформація{% endblock %}
+
+{% block content %}
+<img src="{{ url_for('static', filename='images/' + ful_house.image) }}" height="400" alt="{{ ful_house.name }}">
+<h1>{{ ful_house.name }}</h1>
+<p></p>
+<p>• Місто: {{ ful_house.country }}</p>
+<p>• Адреса: {{ ful_house.address }}</p>
+<p>• Опис: {{ ful_house.description }}</p>
+<p>• Кількість відвідувачів: {{ ful_house.residents }}</p>
+<p>• Статус: {{ ful_house.status }}</p>
+{% if ful_house.price == 0 %}
+    <p>• Ціна за добу: Для біженців безкоштовно</p>
+{% else %}
+    <p>• Ціна за добу: {{ ful_house.price }}$</p>
+{% endif %}
+
+{% if current_user.is_admin and not ful_house.status == 'заброньовано' %}
+    <form action="{{ url_for('edit', house_id=ful_house.id) }}" method="post">
+        <button type="submit" class="btn btn-primary">Відредагувати</button>
+    </form>
+    <p></p>
+    <form action="{{ url_for('delete', house_id=ful_house.id) }}" method="post">
+        <button type="submit" class="btn btn-primary">Видалити</button>
+    </form>                        
+{% endif %}
+
+{% endblock %}

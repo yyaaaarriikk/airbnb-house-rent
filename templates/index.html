@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %} Home - Airbnb {% endblock %}
+{% block content %}
+<h1>Доступні місця для життя</h1>
+<p></p>
+<div class="row">
+    {% for house in houses %}
+        <div class="col-md-4">
+                <div class="card mb-4">
+                    <img src="{{ url_for('static', filename='images/' + house.image) }}" class="card-img-top" alt="{{ house.name }}">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ house.name }}</h4>
+                        <p></p>
+                        <p></p>
+                        <p class="card-text">• Місто: {{ house.country }}</p>
+                        <p class="card-text">• Статус: {{ house.status }}</p>
+                        {% if house.price == 0 %}
+                            <p class="card-text" min="0">• Ціна за добу: Для біженців безкоштовно</p>
+                        {% else %}
+                            <p class="card-text" min="0">• Ціна за добу: {{ house.price }}$</p>
+                        {% endif %}
+                        <a style="color: grey;" href="{{ url_for('full_house', house_id = house.id) }}">більше...</a>
+                        <p></p>
+                        {% if current_user.is_authenticated %}
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#BookingModal{{ house.id }}" >Забронювати</button>
+                            <p></p>
+                            <div class="modal fade" id="BookingModal{{ house.id }}" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="bookingModalLabel{{ house.id }}">Бронювання</h5>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <form action="{{ url_for('booking', house_id=house.id) }}" method="POST">
+                                        {{ form.hidden_tag() }}
+                                        <div class="mb-3">
+                                            <label for="booking_name" class="form-label">Введіть ім'я людини на кого буде створене бронювання:</label>
+                                            {{ form.booking_name(class = "form-control") }}
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="arrival_date" class="form-label">Введіть дату приїзду:</label>
+                                            {{ form.arrival_date(class = "form-control", type="date") }}
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="departure_date" class="form-label">Введіть дату відїзду:</label>
+                                            {{ form.departure_date(class = "form-control", type="date" )}}
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="arrival_residents" class="form-label">Введіть кількітсь жителів:</label>
+                                            {{ form.arrival_residents(class = "form-control") }}
+                                        </div>
+                                        {% if form.arrival_residents.errors %}
+                                        <div class="text-danger">
+                                            {{ form.arrival_residents.errors[0] }}
+                                        </div>
+                                        {% endif %}
+                                        
+                                        <button type="submit" class="btn btn-primary">Додати бронювання</button>            
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>                            
+                        {% endif %}
+                        {% if current_user.is_admin and not house.status == 'заброньовано' %}
+                            <!-- <form action="{{ url_for('edit', house_id=house.id) }}" method="post">
+                                <button type="submit" class="btn btn-primary">Відредагувати</button>
+                            </form> -->
+                            <p></p>
+                            <form action="{{ url_for('delete', house_id=house.id) }}" method="post">
+                                <button type="submit" class="btn btn-primary">Видалити</button>
+                            </form>                        
+                        {% endif %}
+                    </div>
+                </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

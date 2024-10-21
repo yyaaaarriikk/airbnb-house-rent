@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Реєстрація - Airbnb {% endblock %}
+
+{% block content %}
+<h1>Реєстрація</h1>
+<form action="/register" method="POST">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        <label for="username" class="form-label">Введіть Ваше ім'я</label>
+        {{ form.username(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+        <label for="country" class="form-label">Введіть місто проживання:</label>
+        {{ form.country(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+        <label for="password" class="form-label">Введіть пароль:</label>
+        {{ form.password(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+        <label for="confirm_password" class="form-label">Підтвердіть пароль:</label>
+        {{ form.confirm_password(class="form-control") }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Зареєструватися</button>
+</form>
+
+{% endblock %}

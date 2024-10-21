@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %} Додати {% endblock %}
+
+{% block content %}
+<div class="container mb-5">
+    <h1>Додати місце проживання</h1>
+
+    <form action="/add_house" method="post">
+        {{ form.hidden_tag() }}
+
+        <div class="mb-3">
+            <label for="name" class="form-label">Назва:</label>
+            {{ form.name(class="form-control", placeholder="Введіть назву житла") }}
+            {% if form.name.errors %}
+                <div class="text-danger">
+                    {{ form.name.errors[0] }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="country" class="form-label">Місто:</label>
+            {{ form.country(class="form-control", placeholder="Введіть місто житла") }}
+            {% if form.country.errors %}
+                <div class="text-danger">
+                    {{ form.country.errors[0] }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="address" class="form-label">Адреса:</label>
+            {{ form.address(class="form-control", placeholder="Введіть адресу житла") }}
+            {% if form.address.errors %}
+                <div class="text-danger">
+                    {{ form.address.errors[0] }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Опис:</label>
+            {{ form.description(class="form-control", placeholder="Введіть опис житла") }}
+            {% if form.description.errors %}
+                <div class="text-danger">
+                    {{ form.description.errors[0] }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="residents" class="form-label">Кількість людей:</label>
+            {{ form.residents(class="form-control", placeholder="Введіть кількість житлеів") }}
+            {% if form.residents.errors %}
+                <div class="text-danger">
+                    {{ form.residents.errors[0] }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="price" class="form-label">Ціна за день:</label>
+            {{ form.price(class="form-control", placeholder="Введіть ціну житла") }}
+            {% if form.price.errors %}
+                <div class="text-danger">
+                    {{ form.price.errors[0] }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3"></div>
+            <label for="image" class="form-label">Фото:</label>
+            {{ form.image(class="form-control", placeholder="Введіть фото житла") }}
+            {% if form.image.errors %}
+                <div class="text-danger">
+                    {{ form.image.errors[0] }}
+                </div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Додати</button>
+    </form>
+</div>
+
+{% endblock %}

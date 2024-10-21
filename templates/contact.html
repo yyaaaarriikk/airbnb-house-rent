@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Зв'затися - Airbnb{% endblock %}
+
+{% block content %}
+<h1>Зв'язатись з нами за електронною поштою</h1>
+<form method="post" href="/contact">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        <label for="name" class="form-label">Ім'я:</label>
+        {{ form.name(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+        <label for="email" class="form-label">Електронна Пошта:</label>
+        {{ form.email(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+        <label for="message" class="form-label">Повідомлення:</label>
+        {{ form.message(class="form-control") }}
+    </div>
+    <button type="submit" class="btn btn-primary">Надіслати</button>
+</form>
+<p style="margin-bottom: 100px;"></p>
+<h2>Зв'язатись з нами за номером телефону</h2>
+<p>Номер телефону: 
++097 122 23 32</p>
+{% endblock %}
