@@ -16,7 +16,7 @@
                         <p class="card-text">• Місто: {{ house.country }}</p>
                         <p class="card-text">• Статус: {{ house.status }}</p>
                         {% if house.price == 0 %}
-                            <p class="card-text" min="0">• Ціна за добу: Для біженців безкоштовно</p>
+                            <p class="card-text" min="0">• Ціна за добу: Для біженців безкоштовно(за демонстрації відповідних документів)</p>
                         {% else %}
                             <p class="card-text" min="0">• Ціна за добу: {{ house.price }}$</p>
                         {% endif %}

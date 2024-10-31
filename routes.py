@@ -9,6 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from forms import RegistrationForm, LoginForm, ContactForm, AddHouseForm, BookingForm
 
 
+
 @app.route('/')
 def main():
     houses = House.query.all()
@@ -52,16 +53,19 @@ def edit(house_id):
         return redirect(url_for('main'))
     house = House.query.get_or_404(house_id)
     form = AddHouseForm(obj = house)
-    if form.validate_on_submit():
-        house.name = form.name.data
-        house.country = form.country.data
-        house.address = form.address.data
-        house.description = form.description.data
-        house.residents = form.residents.data
-        house.price = form.price.data
-        db.session.commit()
-        flash('Зміни успішно збережені', 'success')
-        return redirect(url_for('main'))
+    if request.method=='POST':
+        if form.validate_on_submit():
+            house.name = form.name.data
+            house.country = form.country.data
+            house.address = form.address.data
+            house.description = form.description.data   
+            house.residents = form.residents.data
+            house.price = form.price.data
+            db.session.commit()
+            flash('Зміни успішно збережені', 'success')
+            return redirect(url_for('main'))
+        else:
+            print('форма не проходить валідацію: ', form.errors)
     return render_template('edit.html', house=house, form=form)
 
 
@@ -157,14 +161,6 @@ def contact():
         flash("Повідомлення успішно надіслано. Дякую за фідбек.", 'success')
         return redirect(url_for('main'))
     return render_template('contact.html', form=form)
-
-# @app.route('/admin')
-# @login_required
-# def admin():
-#     if not current_user.is_admin:
-#         flash('Ви не маєте дозволу на доступ до цієї сторінки.', 'danger')
-#         return redirect(url_for('main'))
-#     return render_template('admin.html')
 
 @app.route('/toggle_admin/<int:user_id>', methods = ['GET', 'POST'])
 @login_required
